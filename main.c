@@ -20,7 +20,7 @@
 #define SEGG_MASK (1 << 7)
 
 // numbrite kuvamiseks muutujad
-volatile uint8_t home_ten = 0;	//volatile ei lase kompilaatoril muutujat välja optimeerida!!!
+volatile uint8_t home_ten = 0;	//volatile ei lase kompilaatoril muutujat vÃ¤lja optimeerida!!!
 volatile uint8_t home_one = 0;
 volatile uint8_t away_ten = 0;
 volatile uint8_t away_one = 0;
@@ -44,8 +44,8 @@ uint8_t taimer;
 uint16_t summa;
 int32_t temp;
 
-// uardist tähemärgi lugemine
-uint8_t readCharacter(uint8_t block)	// loe uardist tähemärk
+// uardist tÃ¤hemÃ¤rgi lugemine
+uint8_t readCharacter(uint8_t block)	// loe uardist tÃ¤hemÃ¤rk
 {
 	if (block == 0)
 	{
@@ -59,7 +59,7 @@ uint8_t readCharacter(uint8_t block)	// loe uardist tähemärk
 	}
 }
 
-// kuvatatavate tähemärkide jada
+// kuvatatavate tÃ¤hemÃ¤rkide jada
 const uint8_t tabel[]=
 {
   0x7E, // 0
@@ -72,7 +72,7 @@ const uint8_t tabel[]=
   0x0E, // 7
   0xFE, // 8
   0xDE, // 9
-  0xC6, // ¤
+  0xC6, // Â¤
   0x72  // C
 };
 
@@ -81,7 +81,7 @@ void delay(uint16_t d)	// viite funktsioon
 	while(d--);
 }
 
-void show_temp(void)	// näita temperatuuri funktsioon
+void show_temp(void)	// nÃ¤ita temperatuuri funktsioon
 {
 	uint8_t i;
 	summa = 0;
@@ -101,9 +101,9 @@ void show_temp(void)	// näita temperatuuri funktsioon
 		 summa+=tulemus;
 	}
 	tulemus=summa/64;
-	// temp arvutamine trendline järgi
-	temp = ((int32_t)(tulemus)) * (-1028);
-	temp += 784420;
+	// temp arvutamine trendline jÃ¤rgi
+	temp = ((int32_t)(tulemus)) * (-925);
+	temp += 72594;
 	temp = temp/10000;			
 	home_one = (uint8_t)(temp % 10);
 	temp /= 10;
@@ -151,7 +151,7 @@ void init(void)	// perifeeria seadistamine
   UART1->BRR2 = 0x01;     // uart baud rate esimene ja viimane  BRR2 esimesena!!!!!
   UART1->BRR1 = 0x01;     // uart baud rate 2MHZ / 115200 = 17 (keskmised 2)
   UART1->CR2 |= UART1_CR2_TEN;     // uardi saatmine lubatud
-  UART1->CR2 |= UART1_CR2_REN;     // uardi vastuvõtmine sees
+  UART1->CR2 |= UART1_CR2_REN;     // uardi vastuvÃµtmine sees
   
   ADC1->CSR=0x00;         // adc kanal 0
   ADC1->CR1=0x01;         // 0x kiirus, ad sisse
@@ -171,7 +171,7 @@ void init(void)	// perifeeria seadistamine
 	enableInterrupts();
 	#endif
 	
-	// ad muunduri seadistamine temp mõõtmise jaoks
+	// ad muunduri seadistamine temp mÃµÃµtmise jaoks
 	ADC1->CSR = 0x00;	//control status register 
 	//ADC_CSR=0x00;         // adc kanal 0
   ADC1->CR1=0x01;         // 0x kiirus, ad sisse / conf register 1
@@ -185,7 +185,7 @@ int main( void )
 	// IOde seadistamine
 	init();
 	
-	// kordustsükkel
+	// kordustsÃ¼kkel
   while (1)
   {
 		
@@ -214,7 +214,7 @@ int main( void )
 				state = SCORE;
 			break;
 			
-			case 'A':	// vööraste punktid
+			case 'A':	// vÃ¶Ã¶raste punktid
 				data  = readCharacter(1);
 				if (data >= '0' && data <= '9')
 				{
@@ -310,11 +310,11 @@ int main( void )
 		
    // Pritsi kood siia:
     //bt puhvri lugemini kuni LFini
-    //esimese sümboli lugemine ja vastava programmijupi täitmine
+    //esimese sÃ¼mboli lugemine ja vastava programmijupi tÃ¤itmine
     //numbri kuvamine ekraanile
     //temperatuuri arvutamine
     //punktide arvutamine/nullimine home/away
-    //kella näitamine ja muutmine
+    //kella nÃ¤itamine ja muutmine
     //stopper start/stop/reset
     //taimeri aja saatmine, start/stop/reset
   }
