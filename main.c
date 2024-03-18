@@ -28,6 +28,7 @@ volatile uint8_t second = 0;
 uint8_t data = 0;
 volatile uint8_t home = 0;
 volatile uint8_t away = 0;
+static uint8_t secCounter = 0;
 
 enum 
 {
@@ -102,8 +103,8 @@ void show_temp(void)	// näita temperatuuri funktsioon
 	}
 	tulemus=summa/64;
 	// temp arvutamine trendline järgi
-	temp = ((int32_t)(tulemus)) * (-925);
-	temp += 72594;
+	temp = ((int32_t)(tulemus)) * (-1028);
+	temp += 784420;
 	temp = temp/10000;			
 	home_one = (uint8_t)(temp % 10);
 	temp /= 10;
@@ -114,11 +115,9 @@ void show_temp(void)	// näita temperatuuri funktsioon
 
 void calc_time(void) // kellaaja uuendamine
 {
-	static uint8_t counter = 0;
-	
-	counter++;
-	if(counter < 60) return;
-	counter = 0;
+	secCounter++;
+	if(secCounter < 60) return;
+	secCounter = 0;
 	
 	away += 1;
 	if (away >= 60)
@@ -272,6 +271,19 @@ int main( void )
 					//away_one = data & 0x0F;
 				}
 				else break;
+				
+				data  = readCharacter(1);
+				if (data >= '0' && data <= '9'){
+					secCounter = 10 * (data & 0x0F);
+				}
+				else break;
+				
+				data  = readCharacter(1);
+				if (data >= '0' && data <= '9'){
+					secCounter += (data & 0x0F);
+				}
+				else break;
+				
 				home_one = home % 10 & 0x0F;
 				home_ten = (home/10)%10 & 0x0F;
 				away_one = away %10 & 0x0F;
